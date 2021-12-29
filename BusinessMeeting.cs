@@ -19,19 +19,28 @@ namespace BiotestCompany
         private List<User> userParticipants;
 
         public BusinessMeeting(int meetingID, DateTime meetingDT, string notes, User creator, Boolean isNew)
-        {
+        {   // from DB
             this.meetingID = meetingID;
             this.meetingDT = meetingDT;
             this.notes = notes;
             this.creator = creator;
-            if (isNew)
-            {
-                this.createBusinessMeeting();
-                Program.BusinessMeetings.Add(this);
-            }
-            this.customerParticipants = new List<Customer>();
-            this.userParticipants = new List<User>();
+            populateCustomerParticipants();
+            populateUserParticipants();
         }
+
+        public BusinessMeeting(DateTime meetingDT, string notes, User creator, List<Customer> customerParticipants, List<User> userParticipants)
+        {   // from GUI, only NEW objects
+            this.meetingID = generateID(); // call function that generates ID
+            this.meetingDT = meetingDT;
+            this.notes = notes;
+            this.creator = creator;
+            this.customerParticipants = customerParticipants;
+            this.userParticipants = userParticipants;
+            this.createBusinessMeeting();
+            Program.BusinessMeetings.Add(this);
+        }
+
+
 
         public Boolean addParticipants(Customer cust, User user)
         { // returns false if no cust or user given
@@ -80,6 +89,14 @@ namespace BiotestCompany
         }
         // set creator?
 
+        // general:
+
+        private int generateID()
+        {
+            int maxID = Program.BusinessMeetings.Max(t => t.meetingID);
+            return maxID + 1;
+        }
+
         public void createBusinessMeeting()
         {
             SqlCommand c = new SqlCommand();
@@ -87,7 +104,7 @@ namespace BiotestCompany
             c.Parameters.AddWithValue("@meetingID", this.meetingID);
             c.Parameters.AddWithValue("@meetingDT", this.meetingDT);
             c.Parameters.AddWithValue("@notes", this.notes);
-            c.Parameters.AddWithValue("@creator", this.creator);
+            c.Parameters.AddWithValue("@creator", this.creator.getID()); // inserts the creators userId
             SQL_CON SC = new SQL_CON();
             SC.execute_non_query(c);
         }
@@ -98,9 +115,39 @@ namespace BiotestCompany
             c.Parameters.AddWithValue("@meetingID", this.meetingID);
             c.Parameters.AddWithValue("@meetingDT", this.meetingDT);
             c.Parameters.AddWithValue("@notes", this.notes);
-            c.Parameters.AddWithValue("@creator", this.creator);
+            c.Parameters.AddWithValue("@creator", this.creator.getID()); // inserts the creators userId
             SQL_CON SC = new SQL_CON();
             SC.execute_non_query(c);
+        }
+        public void populateCustomerParticipants()
+        {
+            SqlCommand c = new SqlCommand();
+            c.CommandText = "EXECUTE dbo.GetCustomersFromCustomerInvits @meetingID";
+            c.Parameters.AddWithValue("@meetingID", this.meetingID);
+            SQL_CON SC = new SQL_CON();
+            SqlDataReader rdr = SC.execute_query(c);
+            int cusID;
+
+            while (rdr.Read())
+            {
+                cusID = (int.Parse(rdr.GetValue(0).ToString()));
+                this.customerParticipants.Add(Program.FindMyCustomer(cusID)); // finds object of type Customer, then adds to vector
+            }
+        }
+        public void populateUserParticipants()
+        {
+            SqlCommand c = new SqlCommand();
+            c.CommandText = "EXECUTE dbo.GetUsersFromUserInvits @meetingID";
+            c.Parameters.AddWithValue("@meetingID", this.meetingID);
+            SQL_CON SC = new SQL_CON();
+            SqlDataReader rdr = SC.execute_query(c);
+            int userID;
+
+            while (rdr.Read())
+            {
+                userID = (int.Parse(rdr.GetValue(0).ToString()));
+                this.userParticipants.Add(Program.FindMyUser(userID)); // finds object of type Customer, then adds to vector
+            }
         }
 
         public void generateForm() // CREATE

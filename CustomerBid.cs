@@ -13,6 +13,7 @@ namespace BiotestCompany
         private PaymentTerm term;
         private User user;
         private ProductType productType;
+        private Contact contact;
         private Customer customer;
 
         public CustomerBid(int bidID, double discount, PaymentTerm term, User user, ProductType productType, Customer customer, Boolean isNew)

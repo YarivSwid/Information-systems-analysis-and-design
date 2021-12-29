@@ -67,7 +67,14 @@
     <Compile Include="Contact.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerBid.cs" />
+    <Compile Include="CustomerOrder.cs" />
     <Compile Include="District.cs" />
+    <Compile Include="Email.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Email.Designer.cs">
+      <DependentUpon>Email.cs</DependentUpon>
+    </Compile>
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,31 +87,66 @@
     <Compile Include="ManageUsersForm.Designer.cs">
       <DependentUpon>ManageUsersForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MenuForm.cs">
+    <Compile Include="MenuManagerForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MenuForm.Designer.cs">
-      <DependentUpon>MenuForm.cs</DependentUpon>
+    <Compile Include="MenuManagerForm.designer.cs">
+      <DependentUpon>MenuManagerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MenuSalesmanForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MenuSalesmanForm.Designer.cs">
+      <DependentUpon>MenuSalesmanForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Message.cs" />
     <Compile Include="PaymentTerm.cs" />
+    <Compile Include="Product.cs" />
+    <Compile Include="ProductsCRUDform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProductsCRUDform.designer.cs">
+      <DependentUpon>ProductsCRUDform.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProductStatus.cs" />
     <Compile Include="ProductType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Role.cs" />
     <Compile Include="SQL_CON.cs" />
+    <Compile Include="Supplier.cs" />
+    <Compile Include="SupplierBid.cs" />
+    <Compile Include="SupplierOrder.cs" />
     <Compile Include="User.cs" />
-    <Compile Include="yariv.cs">
+    <Compile Include="UsersCRUD.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="yariv.Designer.cs">
-      <DependentUpon>yariv.cs</DependentUpon>
+    <Compile Include="UsersCRUD.designer.cs">
+      <DependentUpon>UsersCRUD.cs</DependentUpon>
     </Compile>
+    <Compile Include="UsersCRUDform.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UsersCRUDform.designer.cs">
+      <DependentUpon>UsersCRUDform.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Email.resx">
+      <DependentUpon>Email.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MenuForm.resx">
-      <DependentUpon>MenuForm.cs</DependentUpon>
+    <EmbeddedResource Include="ManageUsersForm.resx">
+      <DependentUpon>ManageUsersForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MenuManagerForm.resx">
+      <DependentUpon>MenuManagerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MenuSalesmanForm.resx">
+      <DependentUpon>MenuSalesmanForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProductsCRUDform.resx">
+      <DependentUpon>ProductsCRUDform.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -116,6 +158,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="UsersCRUD.resx">
+      <DependentUpon>UsersCRUD.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UsersCRUDform.resx">
+      <DependentUpon>UsersCRUDform.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="BiotestDataSet.xsc">
       <DependentUpon>BiotestDataSet.xsd</DependentUpon>
     </None>
@@ -149,7 +197,6 @@
     <None Include="BiotestDataSet2.xss">
       <DependentUpon>BiotestDataSet2.xsd</DependentUpon>
     </None>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

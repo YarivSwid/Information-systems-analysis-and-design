@@ -26,10 +26,10 @@ namespace BiotestCompany
         private DateTime birthday;
         private int serialID;
         private string email;
-        private string role; //CHANGE BACK TO Role type
+        private Role role; //CHANGE BACK TO Role type
         private string profilePicture;
 
-        public User(int userID, DateTime joinDate, string firstName, string lastName, DateTime birthday, int serialID, string email, string role, string profilePicture, Boolean isNew) //CHANGE BACK TO Role type
+        public User(int userID, DateTime joinDate, string firstName, string lastName, DateTime birthday, int serialID, string email, Role role, string profilePicture, Boolean isNew) //CHANGE BACK TO Role type
         { // create from GUI (no password in input)
             this.userID = userID;
             this.password = setAutomaticPassword(); // create the method
@@ -47,7 +47,7 @@ namespace BiotestCompany
                 Program.Users.Add(this);
             }
         }
-        public User(int userID, string password, DateTime joinDate, string firstName, string lastName, DateTime birthday, int serialID, string email, string role, string profilePicture, Boolean isNew) //CHANGE BACK TO Role type
+        public User(int userID, string password, DateTime joinDate, string firstName, string lastName, DateTime birthday, int serialID, string email, Role role, string profilePicture, Boolean isNew) //CHANGE BACK TO Role type
         { // create from SQL
             this.userID = userID;
             this.password = password;
@@ -71,6 +71,10 @@ namespace BiotestCompany
         {
             // when we create a rand password, we will send it to user
             return "doctorStrange ";
+        }
+        public Role getRole()
+        {
+            return this.role;
         }
         public int getID()
         {
@@ -146,6 +150,18 @@ namespace BiotestCompany
         {
             // CODE IT LATER
             return true;
+        }
+        public string CreatePassword(int length)
+        {
+            const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+            StringBuilder res = new StringBuilder();
+            Random rnd = new Random();
+            while (0 < length--)
+            {
+                res.Append(valid[rnd.Next(valid.Length)]);
+            }
+
+            return res.ToString();
         }
 
 

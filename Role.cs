@@ -11,6 +11,7 @@ namespace BiotestCompany
         Manager,
         Secretary,
         Salesman,
-        SalesmanSecretary
+        SalesmanSecretary,
+        Logisticsman
     }
 }

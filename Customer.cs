@@ -16,6 +16,7 @@ namespace BiotestCompany
         private string deliveryAddress;
         private string buildingNumber;
         private int roomNumber;
+        private List<Contact> contacts; // update, this represents different contacts within the company
 
         public Customer(int custID, string orgName, District district, string deliveryAddress, string buildingNumber, int roomNumber, Boolean isNew)
         {
@@ -33,7 +34,10 @@ namespace BiotestCompany
         }
 
         // setters & getters:
-
+        public int getID()
+        {
+            return this.custID;
+        }
         public void setOrgName(string name)
         {
             this.orgName = name;
@@ -70,6 +74,7 @@ namespace BiotestCompany
         {
             return this.roomNumber;
         }
+
 
         //int custID, string orgName, District district, string deliveryAddress, string buildingNumber, int roomNumber
         public void createCustomer()

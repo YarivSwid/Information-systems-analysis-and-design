@@ -1,7 +1,4 @@
-﻿// File:    Order.cs
-// Author:  ranalm
-// Created: יום שני 12 מאי 2014 21:00:31
-// Purpose: Definition of Class Order
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +16,9 @@ namespace BiotestCompany
         private DateTime openingDT;
         private string description;
         private User creator;
-
+        private List<User> participants; // update when user joins/leaves chat
+        private List<Message> messages; // take care of it
+        
         public Chat(string name, string description, User creator, Boolean isNew) //ADD CREATOR TO PARAMETERS!!!
         {
             this.chatID = GIVEME();

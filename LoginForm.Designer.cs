@@ -64,7 +64,7 @@
             this.label1.Location = new System.Drawing.Point(69, 32);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(305, 35);
+            this.label1.Size = new System.Drawing.Size(248, 29);
             this.label1.TabIndex = 3;
             this.label1.Text = "Welcome to BioTest!";
             this.label1.UseWaitCursor = true;
@@ -86,11 +86,11 @@
             // 
             this.button1.BackColor = System.Drawing.Color.White;
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.Location = new System.Drawing.Point(401, 326);
+            this.button1.Location = new System.Drawing.Point(431, 303);
             this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button1.Name = "button1";
             this.button1.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.button1.Size = new System.Drawing.Size(47, 33);
+            this.button1.Size = new System.Drawing.Size(25, 23);
             this.button1.TabIndex = 7;
             this.button1.UseVisualStyleBackColor = false;
             this.button1.UseWaitCursor = true;
@@ -100,11 +100,11 @@
             // 
             this.button2.BackColor = System.Drawing.Color.White;
             this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-            this.button2.Location = new System.Drawing.Point(400, 326);
+            this.button2.Location = new System.Drawing.Point(430, 303);
             this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button2.Name = "button2";
             this.button2.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.button2.Size = new System.Drawing.Size(47, 33);
+            this.button2.Size = new System.Drawing.Size(25, 23);
             this.button2.TabIndex = 8;
             this.button2.UseVisualStyleBackColor = false;
             this.button2.UseWaitCursor = true;
@@ -116,7 +116,7 @@
             this.textBox2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox2.Name = "textBox2";
             this.textBox2.PasswordChar = '*';
-            this.textBox2.Size = new System.Drawing.Size(164, 27);
+            this.textBox2.Size = new System.Drawing.Size(164, 23);
             this.textBox2.TabIndex = 9;
             this.textBox2.UseWaitCursor = true;
             this.textBox2.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
@@ -126,7 +126,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(122, 264);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 19);
+            this.label3.Size = new System.Drawing.Size(45, 16);
             this.label3.TabIndex = 10;
             this.label3.Text = "Email\r\n";
             this.label3.UseWaitCursor = true;
@@ -137,7 +137,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(122, 300);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(87, 19);
+            this.label4.Size = new System.Drawing.Size(76, 16);
             this.label4.TabIndex = 11;
             this.label4.Text = "Password";
             this.label4.UseWaitCursor = true;
@@ -193,14 +193,14 @@
             this.textBox3.Location = new System.Drawing.Point(229, 261);
             this.textBox3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(164, 27);
+            this.textBox3.Size = new System.Drawing.Size(164, 23);
             this.textBox3.TabIndex = 18;
             this.textBox3.UseWaitCursor = true;
             this.textBox3.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // LoginForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 19F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(504, 437);
             this.Controls.Add(this.textBox3);

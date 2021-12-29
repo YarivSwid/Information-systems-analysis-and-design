@@ -31,3 +31,15 @@ C:\Users\97252\Desktop\ניתוץ\BiotestCompany\obj\Debug\BiotestCompany.csproj
 C:\Users\97252\Desktop\ניתוץ\BiotestCompany\obj\Debug\BiotestCompany.csproj.CoreCompileInputs.cache
 C:\Users\97252\Desktop\ניתוץ\BiotestCompany\obj\Debug\BiotestCompany.exe
 C:\Users\97252\Desktop\ניתוץ\BiotestCompany\obj\Debug\BiotestCompany.pdb
+C:\Users\yarivsw\Desktop\BiotestCompany\bin\Debug\BiotestCompany.exe.config
+C:\Users\yarivsw\Desktop\BiotestCompany\bin\Debug\BiotestCompany.exe
+C:\Users\yarivsw\Desktop\BiotestCompany\bin\Debug\BiotestCompany.pdb
+C:\Users\yarivsw\Desktop\BiotestCompany\obj\Debug\BiotestCompany.csprojResolveAssemblyReference.cache
+C:\Users\yarivsw\Desktop\BiotestCompany\obj\Debug\BiotestCompany.LoginForm.resources
+C:\Users\yarivsw\Desktop\BiotestCompany\obj\Debug\BiotestCompany.Properties.Resources.resources
+C:\Users\yarivsw\Desktop\BiotestCompany\obj\Debug\BiotestCompany.csproj.GenerateResource.Cache
+C:\Users\yarivsw\Desktop\BiotestCompany\obj\Debug\BiotestCompany.csproj.CoreCompileInputs.cache
+C:\Users\yarivsw\Desktop\BiotestCompany\obj\Debug\BiotestCompany.exe
+C:\Users\yarivsw\Desktop\BiotestCompany\obj\Debug\BiotestCompany.pdb
+C:\Users\yarivsw\Desktop\BiotestCompany\obj\Debug\BiotestCompany.Email.resources
+C:\Users\yarivsw\Desktop\BiotestCompany\obj\Debug\BiotestCompany.MenuSalesmanForm.resources

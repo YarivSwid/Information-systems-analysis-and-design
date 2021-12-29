@@ -26,6 +26,19 @@ namespace BiotestCompany
 
         private void ButtLogin_Click(object sender, EventArgs e)
         {
+            button2.Show();
+            button1.Show();
+            if (textBox2.Text.Length < 8 || textBox2.Text.Length > 14 || (!textBox2.Text.Any(char.IsUpper)) || (!textBox2.Text.Any(char.IsLower)) ||
+               (!textBox2.Text.Any(char.IsDigit)) || (textBox2.Text.Contains(" ")))
+            {
+                button4.Show();
+            }
+            else
+            {
+                button4.Hide();
+                button6.Show();
+
+            }
             if (textBox2.Text.Length < 8 || textBox2.Text.Length > 14 || (!textBox2.Text.Any(char.IsUpper)) || (!textBox2.Text.Any(char.IsLower)) ||
                 (!textBox2.Text.Any(char.IsDigit)) ||  (textBox2.Text.Contains(" "))){
                 if (textBox2.Text.Contains(" ")) {
@@ -34,18 +47,45 @@ namespace BiotestCompany
                 else {
                     MessageBox.Show("Please use a password with 8-14 letters and atleast 1 upper letter, \n lower letter and digit");
                 }
+                button4.Show();
             }
-            //if (!Program.checkUser(textBox3.Text)) {
-            //    MessageBox.Show("Could not find this User please check your Usermail");
+            else {
+                button4.Hide();
+                button6.Show();
+            }
 
-            //}
-            //else if (!Program.checkPassword(textBox2.Text)) {
-            //    MessageBox.Show("Password was not correct please try another password");
-            //}
+            if (!Program.checkUser(textBox3.Text))
+            {
+                MessageBox.Show("Could not find this User please check your Usermail");
+            }
+            else if (!Program.checkPassword(textBox3.Text,textBox2.Text))
+            {
+                MessageBox.Show("Password was not correct please try another password");
+            }
+            else {
+                if (Program.checkRole(textBox3.Text) =="Manager")
+                {
+                    MessageBox.Show("Manager");
 
-            Form menu = new MenuForm();
-            menu.Show();
-            this.Hide();
+                }
+                else if (Program.checkRole(textBox3.Text) == "Secretary")
+                {
+                    MessageBox.Show("Secretary");
+
+                }
+                else if(Program.checkRole(textBox3.Text) == "Salesman")
+                {
+                    MessageBox.Show("Salesman");
+
+                }
+                else  {
+                    MessageBox.Show("IDK");
+
+                }
+                this.Hide();
+            }
+
+
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -98,16 +138,16 @@ namespace BiotestCompany
         {
             button2.Show();
             button1.Show();
-            if (textBox2.Text.Length < 8 || textBox2.Text.Length > 14 || (!textBox2.Text.Any(char.IsUpper)) || (!textBox2.Text.Any(char.IsLower)) ||
-               (!textBox2.Text.Any(char.IsDigit)) || (textBox2.Text.Contains(" ")))
-            {
-                button4.Show();
-            }
-            else {
-                button4.Hide();
-                button6.Show();
+            //if (textBox2.Text.Length < 8 || textBox2.Text.Length > 14 || (!textBox2.Text.Any(char.IsUpper)) || (!textBox2.Text.Any(char.IsLower)) ||
+            //   (!textBox2.Text.Any(char.IsDigit)) || (textBox2.Text.Contains(" ")))
+            //{
+            //    button4.Show();
+            //}
+            //else {
+            //    button4.Hide();
+            //    button6.Show();
 
-            }
+            //}
         }
 
         private void button2_Click(object sender, EventArgs e)
