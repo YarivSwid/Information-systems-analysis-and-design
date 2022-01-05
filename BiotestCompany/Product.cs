@@ -31,20 +31,25 @@ namespace BiotestCompany
             if (isNew)
             {
                 this.createProduct();
-                Program.Products.Add(this);
+                Program.products.Add(this);
             }
         }
-
         public void createProduct()
         {
             SqlCommand c = new SqlCommand();
             c.CommandText = "EXECUTE dbo.AddProduct @serialNumber, @unitsNumber, @status ,@productType, @supplierOrderID, @customerOrderID, @expiration_date";
             c.Parameters.AddWithValue("@serialNumber", this.serialNumber);
-            c.Parameters.AddWithValue("@units", this.units);
+            c.Parameters.AddWithValue("@unitsNumber", this.units);
             c.Parameters.AddWithValue("@status", this.status);
             c.Parameters.AddWithValue("@productType", this.productType.getCatNumber());
-            c.Parameters.AddWithValue("@supplierOrderID", this.supplierOrderID);
-            c.Parameters.AddWithValue("@customerOrderID", this.customerOrderID);
+            if (this.supplierOrderID == 0)
+                c.Parameters.AddWithValue("@supplierOrderID", DBNull.Value);
+            else
+                c.Parameters.AddWithValue("@supplierOrderID", this.supplierOrderID);
+            if (this.customerOrderID == 0)
+                c.Parameters.AddWithValue("@customerOrderID", DBNull.Value);
+            else
+                c.Parameters.AddWithValue("@customerOrderID", this.customerOrderID);
             c.Parameters.AddWithValue("@expiration_date", this.expirationDate);
 
             SQL_CON SC = new SQL_CON();
@@ -71,6 +76,14 @@ namespace BiotestCompany
         public int getSerialNumer()
         {
             return this.serialNumber;
+        }
+        public ProductType GetProductType()
+        {
+            return this.productType;
+        }
+        public ProductStatus GetProductStatus()
+        {
+            return this.status;
         }
     }
 }

@@ -44,7 +44,7 @@ namespace BiotestCompany
             if (isNew)
             {
                 this.createUser();
-                Program.Users.Add(this);
+                Program.users.Add(this);
             }
         }
         public User(int userID, string password, DateTime joinDate, string firstName, string lastName, DateTime birthday, int serialID, string email, Role role, string profilePicture, Boolean isNew) //CHANGE BACK TO Role type
@@ -62,7 +62,7 @@ namespace BiotestCompany
             if (isNew)
             {
                 this.createUser();
-                Program.Users.Add(this);
+                Program.users.Add(this);
             }
 
       
@@ -206,7 +206,7 @@ namespace BiotestCompany
         }
         public void deleteUser()
         {
-            Program.Users.Remove(this);
+            Program.users.Remove(this);
             SqlCommand c = new SqlCommand();
             c.CommandText = "EXECUTE dbo.DeleteUser @id";
             c.Parameters.AddWithValue("@id", this.userID);

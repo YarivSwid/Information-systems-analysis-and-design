@@ -26,11 +26,6 @@ namespace BiotestCompany
         {
 
         }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
         private void toUsers_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -39,15 +34,35 @@ namespace BiotestCompany
         private void toClients_Click(object sender, EventArgs e)
         {
             this.Hide();
-            //new CRUDcustomersForm();        ///////this is customers form
+            new CRUDcustomersForm().Show(); 
         }
         private void toSuppliers_Click(object sender, EventArgs e)
         {
-
+            this.Hide();
+            new CRUDsuppliersForm().Show();
         }
         private void toProducts_Click(object sender, EventArgs e)
         {
+            this.Hide();
+            new CRUDproductForm().Show();
+        }
+
+        private void Chat_Butt_Click(object sender, EventArgs e)
+        {
+            new ChatMainForm(Program.getLoggedIn()).Show();
+        }
+
+        private void toProfile_Button_Click(object sender, EventArgs e)
+        {
 
         }
+
+        private void logout_Butt_Click(object sender, EventArgs e)
+        {
+            new LoginForm().Show();
+            this.Close();
+        }
+
+
     }
 }

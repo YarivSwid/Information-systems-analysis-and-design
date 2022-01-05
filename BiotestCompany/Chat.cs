@@ -31,15 +31,19 @@ namespace BiotestCompany
             if (isNew)
             {
                 this.createChat();
-                Program.Chats.Add(this);
+                Program.chats.Add(this);
             }
 
         }
-        public int GIVEME()
+        public int giveMe()
         {
             int result = this.openingDT.Year * 100000 + this.openingDT.Month * 1000
                         + this.openingDT.Day * 100 + this.openingDT.Hour * 10 + this.openingDT.Minute + this.openingDT.Second;
             return result;
+        }
+        public List<Message> getMessages()
+        {
+            return this.messages;
         }
         public int getID()
         {
@@ -57,10 +61,10 @@ namespace BiotestCompany
         {
             return this.description;
         }
-        //public User getUser()
-        //{
-        //    return this.creator;
-        //}
+        public User getUser()
+        {
+            return this.creator;
+        }
         public void setName(string newName)
         {
             this.name = newName;
@@ -74,19 +78,29 @@ namespace BiotestCompany
         {
             SqlCommand c = new SqlCommand();
             c.CommandText = "EXECUTE dbo.AddChat @chatID,@name,@openingDT,@description,@manager"; // ןגם להוסיף מנג'ר
-            c.Parameters.AddWithValue("@ID", this.chatID);
+            c.Parameters.AddWithValue("@chatID", this.chatID);
             c.Parameters.AddWithValue("@name", this.name);
             c.Parameters.AddWithValue("@openingDT", this.openingDT);
             c.Parameters.AddWithValue("@description", this.description);
             c.Parameters.AddWithValue("@manager", this.creator.getID());
             SQL_CON SC = new SQL_CON();
             SC.execute_non_query(c);
+
+            SqlCommand a = new SqlCommand();
+            string text = "INSERT INTO dbo.CHATPARTS VALUES ";
+            foreach (User U in participants)
+            {
+                text = text + "(" + chatID + "," + U.getID() + "),";
+            }
+            text = text.Substring(0, text.Length-1);
+            a.CommandText = text;
+            SC.execute_non_query(a);
         }
         public void updateChat()
         {
             SqlCommand c = new SqlCommand();
             c.CommandText = "EXECUTE dbo.UpdateChat @ID, @name, @openingDT, @description, @manager"; // ןגם להוסיף מנג'ר
-            c.Parameters.AddWithValue("@ID", this.chatID);
+            c.Parameters.AddWithValue("@chatID", this.chatID);
             c.Parameters.AddWithValue("@name", this.name);
             c.Parameters.AddWithValue("@openingDT", this.openingDT);
             c.Parameters.AddWithValue("@description", this.description);
@@ -96,10 +110,17 @@ namespace BiotestCompany
         }
             public void deleteUser() // should we delete this delelete ? :)()))))))))))))))
         {
-            Program.Chats.Remove(this);
+            Program.chats.Remove(this);
             SqlCommand c = new SqlCommand();
             c.CommandText = "EXECUTE dbo.DeleteChat @id";
             c.Parameters.AddWithValue("@id", this.chatID);
+            SQL_CON SC = new SQL_CON();
+            SC.execute_non_query(c);
+        }
+        public void createDualChatParts(int f, int s)
+        {
+            SqlCommand c = new SqlCommand();
+            c.CommandText = "INSERT INTO dbo.CHATPARTS VALUES ("+chatID+","+s+"),("+chatID+", "+f+")";
             SQL_CON SC = new SQL_CON();
             SC.execute_non_query(c);
         }

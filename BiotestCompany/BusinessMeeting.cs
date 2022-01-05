@@ -29,7 +29,7 @@ namespace BiotestCompany
             if (isNew)
             {
                 this.createBusinessMeeting();
-                Program.BusinessMeetings.Add(this);
+                Program.businessMeetings.Add(this);
             }
         }
 

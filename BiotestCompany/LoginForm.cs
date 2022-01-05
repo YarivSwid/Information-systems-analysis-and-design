@@ -18,65 +18,49 @@ namespace BiotestCompany
             button1.Hide();
             button2.Hide();
             button3.Hide();
-            button4.Hide();
             button5.Hide();
-            button6.Hide();
 
         }
-
         private void ButtLogin_Click(object sender, EventArgs e)
         {
             button2.Show();
             button1.Show();
             if (textBox2.Text.Length < 8 || textBox2.Text.Length > 14 || (!textBox2.Text.Any(char.IsUpper)) || (!textBox2.Text.Any(char.IsLower)) ||
-               (!textBox2.Text.Any(char.IsDigit)) || (textBox2.Text.Contains(" ")))
-            {
-                button4.Show();
-            }
-            else
-            {
-                button4.Hide();
-                button6.Show();
-
-            }
-            if (textBox2.Text.Length < 8 || textBox2.Text.Length > 14 || (!textBox2.Text.Any(char.IsUpper)) || (!textBox2.Text.Any(char.IsLower)) ||
                 (!textBox2.Text.Any(char.IsDigit)) ||  (textBox2.Text.Contains(" "))){
                 if (textBox2.Text.Contains(" ")) {
-                    MessageBox.Show("Please do no use space in your password");
+                    MessageBox.Show("Please do no use space in your password", "Oops!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else {
-                    MessageBox.Show("Please use a password with 8-14 letters and atleast 1 upper letter, \n lower letter and digit");
+                    MessageBox.Show("Please use a password with 8 - 14 letters \n at least 1 upper letter, \n lower letter and digit", "Oops!",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                button4.Show();
-            }
-            else {
-                button4.Hide();
-                button6.Show();
             }
 
             if (!Program.checkUser(textBox3.Text))
             {
-                MessageBox.Show("Could not find this User please check your Usermail");
+                MessageBox.Show("Could not find this User, please check your Usermail", "Oops!",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else if (!Program.checkPassword(textBox3.Text,textBox2.Text))
             {
-                MessageBox.Show("Password was not correct please try another password");
+                MessageBox.Show("Password was not correct please try another password", "Oops!",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else {
+                Program.setLoggedIn_byEmail(textBox3.Text);
                 if (Program.checkRole(textBox3.Text) =="Manager")
                 {
-                    MessageBox.Show("Manager");
                     this.Hide();
                     new MenuManagerForm().Show();
                 }
                 else if (Program.checkRole(textBox3.Text) == "Secretary")
                 {
-                    MessageBox.Show("Secretary");
+                    new MenuManagerForm().Show();
 
                 }
                 else if(Program.checkRole(textBox3.Text) == "Salesman")
                 {
-                    MessageBox.Show("Salesman");
                     this.Hide();
                     new MenuSalesmanForm().Show();
                 }

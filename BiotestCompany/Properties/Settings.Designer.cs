@@ -33,5 +33,15 @@ namespace BiotestCompany.Properties {
                 return ((string)(this["BiotestConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=IEMDBS;Initial Catalog=SAD_1;Integrated Security=True")]
+        public string SAD_1ConnectionString {
+            get {
+                return ((string)(this["SAD_1ConnectionString"]));
+            }
+        }
     }
 }

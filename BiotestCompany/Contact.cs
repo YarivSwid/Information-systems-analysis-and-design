@@ -22,7 +22,7 @@ namespace BiotestCompany
             if (isNew)
             {
                 this.createContact();
-                Program.Contacts.Add(this);
+                Program.contacts.Add(this);
             }
         }
 

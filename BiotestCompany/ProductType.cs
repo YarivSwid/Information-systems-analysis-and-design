@@ -27,7 +27,7 @@ namespace BiotestCompany
             if (isNew)
             {
                 this.createProductType();
-                Program.ProductTypes.Add(this);
+                Program.productTypes.Add(this);
             }
         }
 
@@ -73,8 +73,16 @@ namespace BiotestCompany
         {
             this.weight = weight;
         }
+        public void setPrice(double price)
+        {
+            this.price = price;
+        }
+        public double getPrice()
+        {
+            return this.price;
+        }
 
-        public void createProductType() 
+        public void createProductType()
         {
             SqlCommand c = new SqlCommand();
             c.CommandText = "EXECUTE dbo.AddProductType @categorialNumber, @name, @shelfLifeDays ,@tempCels, @weightKG, @price";
@@ -88,7 +96,7 @@ namespace BiotestCompany
             SQL_CON SC = new SQL_CON();
             SC.execute_non_query(c);
         }
-        public void updateProductType() 
+        public void updateProductType()
         {
             SqlCommand c = new SqlCommand();
             c.CommandText = "EXECUTE dbo.UpdateProductType @categorialNumber, @name, @shelfLifeDays ,@tempCels, @weightKG, @price";
@@ -97,6 +105,16 @@ namespace BiotestCompany
             c.Parameters.AddWithValue("@shelfLifeDays", this.shelfLife);
             c.Parameters.AddWithValue("@tempCels", this.tempCels);
             c.Parameters.AddWithValue("@weightKG", this.weight);
+            c.Parameters.AddWithValue("@price", this.price);
+
+            SQL_CON SC = new SQL_CON();
+            SC.execute_non_query(c);
+        }
+        public void updatePrice()
+        {
+            SqlCommand c = new SqlCommand();
+            c.CommandText = "EXECUTE dbo.UpdateProductTypePrice @categorialNumber, @price";
+            c.Parameters.AddWithValue("@categorialNumber", this.catNumber);
             c.Parameters.AddWithValue("@price", this.price);
 
             SQL_CON SC = new SQL_CON();

@@ -1,4 +1,15 @@
-﻿using System;
+﻿// לעשות:
+// למשל) לכל תפקיד MenuManagerForm מסכי תפריט (כמו 
+// המסכים האלה הכרחיים כי כרגע אם מזכירה נכנסת למשתמש שלה לא קורה כלום
+// הם צריכים להכיל פשוט כפתורים בעיצוב האחיד כמו שכבר עשיתי, ליוזקייסים והקרודים הרלוונטים
+// כולל כפתורי צ'אט ופרופיל וכמובן לוג אאוט שכבר יש בתפריטים האחרים
+// ממליץ לעשות העתק הדבק לעיצוב ואז לכתוב קוד מאחוריו.
+
+
+// בכפתור לוגין ובכל כפתור חזרה לתפריט צריך לשלוח את המשתמש חזרה לתפריט המתאים לו לפי התפקיד
+
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -6,6 +17,8 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 using System.Text;
+using System.Net;
+using System.Net.Mail;
 
 namespace BiotestCompany
 {
@@ -15,20 +28,23 @@ namespace BiotestCompany
         /// The main entry point for the application.
         /// </summary>
         ///  //רשימות
-        public static System.Collections.Generic.List<Customer> Customers;
-        public static System.Collections.Generic.List<User> Users;
-        public static System.Collections.Generic.List<Chat> Chats;
-        public static System.Collections.Generic.List<Message> Messages;
-        public static System.Collections.Generic.List<CustomerBid> CustomerBids;
-        public static System.Collections.Generic.List<CustomerOrder> CustomerOrders;
-        public static System.Collections.Generic.List<Supplier> Suppliers;
-        public static System.Collections.Generic.List<BusinessMeeting> BusinessMeetings;
-        public static System.Collections.Generic.List<Contact> Contacts;
-        public static System.Collections.Generic.List<SupplierBid> SupplierBids;
-        public static System.Collections.Generic.List<SupplierOrder> SupplierOrders;
-        public static System.Collections.Generic.List<Product> Products;
-        public static System.Collections.Generic.List<ProductType> ProductTypes;
-            
+        public static System.Collections.Generic.List<Customer> customers;
+        public static System.Collections.Generic.List<User> users;
+        public static System.Collections.Generic.List<Chat> chats;
+        public static System.Collections.Generic.List<Message> messages;
+        public static System.Collections.Generic.List<CustomerBid> customerBids;
+        public static System.Collections.Generic.List<CustomerOrder> customerOrders;
+        public static System.Collections.Generic.List<Supplier> suppliers;
+        public static System.Collections.Generic.List<BusinessMeeting> businessMeetings;
+        public static System.Collections.Generic.List<Contact> contacts;
+        public static System.Collections.Generic.List<SupplierBid> supplierBids;
+        public static System.Collections.Generic.List<SupplierOrder> supplierOrders;
+        public static System.Collections.Generic.List<Product> products;
+        public static System.Collections.Generic.List<ProductType> productTypes;
+        public static System.Collections.Generic.Dictionary<ProductType, int> tempProductTypesDict = new Dictionary<ProductType, int>();
+        public static System.Collections.Generic.Dictionary<ProductType, int> tempSOProducts = new Dictionary<ProductType, int>();// almo & alo?
+        public static User LoggedIn;
+
         [STAThread]
 
         // initiate lists:
@@ -56,13 +72,13 @@ namespace BiotestCompany
             SQL_CON SC = new SQL_CON();
             SqlDataReader rdr = SC.execute_query(c);
 
-            Users = new List<User>();
+            users = new List<User>();
 
             while (rdr.Read())
             {
                 Role T = (Role)Enum.Parse(typeof(Role), rdr.GetValue(8).ToString());
                 User U = new User(int.Parse(rdr.GetValue(0).ToString()), rdr.GetValue(1).ToString(), DateTime.Parse(rdr.GetValue(2).ToString()), rdr.GetValue(3).ToString(), rdr.GetValue(4).ToString(), DateTime.Parse(rdr.GetValue(5).ToString()), int.Parse(rdr.GetValue(6).ToString()), rdr.GetValue(7).ToString(), T, rdr.GetValue(9).ToString(), false); //CHANGE Role TO Role type
-                Users.Add(U);
+                users.Add(U);
             }
         }
         public static void init_contact()
@@ -72,12 +88,12 @@ namespace BiotestCompany
             SQL_CON SC = new SQL_CON();
             SqlDataReader rdr = SC.execute_query(c);
 
-            Contacts = new List<Contact>();
+            contacts = new List<Contact>();
 
             while (rdr.Read())
             {
                 Contact C = new Contact(rdr.GetValue(0).ToString(), int.Parse(rdr.GetValue(1).ToString()), rdr.GetValue(0).ToString(), false);
-                Contacts.Add(C);
+                contacts.Add(C);
             }
         }
         public static void init_customers()
@@ -87,7 +103,7 @@ namespace BiotestCompany
             SQL_CON SC = new SQL_CON();
             SqlDataReader rdr = SC.execute_query(c);
 
-            Customers = new List<Customer>();
+            customers = new List<Customer>();
 
             while (rdr.Read())
             {
@@ -97,17 +113,17 @@ namespace BiotestCompany
                 SQL_CON SC2 = new SQL_CON();
                 SqlDataReader rdr2 = SC2.execute_query(c2);
 
-                List<Contact> contacts = new List<Contact>();
+                List<Contact> c_contacts = new List<Contact>();
 
                 while(rdr2.Read())
                 {
-                    Contact con = FindMyContact(rdr2.GetValue(0).ToString());
-                    contacts.Add(con);
+                    Contact con = findMyContact(rdr2.GetValue(0).ToString());
+                    c_contacts.Add(con);
                 }
 
                 District T = (District)Enum.Parse(typeof(District), rdr.GetValue(2).ToString());// if need a enum
-                Customer C = new Customer(int.Parse(rdr.GetValue(0).ToString()), rdr.GetValue(1).ToString(), T, rdr.GetValue(3).ToString(), rdr.GetValue(4).ToString(), int.Parse(rdr.GetValue(5).ToString()), contacts, false); 
-                Customers.Add(C);
+                Customer C = new Customer(int.Parse(rdr.GetValue(0).ToString()), rdr.GetValue(1).ToString(), T, rdr.GetValue(3).ToString(), rdr.GetValue(4).ToString(), int.Parse(rdr.GetValue(5).ToString()), c_contacts, false); 
+                customers.Add(C);
             }
         }
         public static void init_messages() 
@@ -117,21 +133,20 @@ namespace BiotestCompany
             SQL_CON SC = new SQL_CON();
             SqlDataReader rdr = SC.execute_query(c);
 
-            Messages = new List<Message>();
+            messages = new List<Message>();
 
             while (rdr.Read())
             {
-                User sentBy = FindMyUser(int.Parse(rdr.GetValue(0).ToString()));
+                User sentBy = findMyUser(int.Parse(rdr.GetValue(0).ToString()));
                 Message responseTo = null;
                 Boolean flag = rdr.GetValue(4).ToString().Equals(""); // T if the message is not a response to another message, else F meaning it IS a response so we need to get another MESSAGE
-                //Console.WriteLine("response to user " + rdr.GetValue(4).ToString());
-                //Console.WriteLine("response to user " + rdr.GetValue(5).ToString());
-                if (flag == false) // CHECK IF WORKINGGGGG
+
+                if (flag == false) 
                 { // retrieve message to which the current message is a response
-                    responseTo = FindMyMessage(FindMyUser(int.Parse(rdr.GetValue(4).ToString())), DateTime.Parse(rdr.GetValue(5).ToString()));
+                    responseTo = findMyMessage(findMyUser(int.Parse(rdr.GetValue(4).ToString())), DateTime.Parse(rdr.GetValue(5).ToString()));
                 }
-                Message M = new Message(sentBy, rdr.GetValue(2).ToString(), rdr.GetValue(3).ToString(), responseTo, int.Parse(rdr.GetValue(6).ToString()), false);
-                Messages.Add(M);
+                Message M = new Message(sentBy, rdr.GetValue(2).ToString(), DateTime.Parse(rdr.GetValue(1).ToString()), rdr.GetValue(3).ToString(), responseTo, int.Parse(rdr.GetValue(6).ToString()), false);
+                messages.Add(M);
             }
         }
         public static void init_chats() 
@@ -141,14 +156,14 @@ namespace BiotestCompany
             SQL_CON SC = new SQL_CON();
             SqlDataReader rdr = SC.execute_query(c);
 
-            Chats = new List<Chat>();
+            chats = new List<Chat>();
             List<User> participants = new List<User>();
-            List<Message> messages = new List<Message>();
+            List<Message> c_messages = new List<Message>();
 
             while (rdr.Read()) // populate chats list
             {
                 participants = new List<User>();
-                messages = new List<Message>();
+                c_messages = new List<Message>();
                 SqlCommand c2 = new SqlCommand(); // create a new SQL command for retreiving participants of chat
                 c2.CommandText = "EXECUTE dbo.GetAllChatParticipants @chatID";
                 c2.Parameters.AddWithValue("@chatID", int.Parse(rdr.GetValue(0).ToString())); // replaces string from command with the first parameter taken from table
@@ -156,7 +171,7 @@ namespace BiotestCompany
                 SqlDataReader rdr2 = SC2.execute_query(c2);
                 while (rdr2.Read()) // populate participants list for every chat
                 {
-                    User UU = FindMyUser(int.Parse(rdr2.GetValue(0).ToString())); // 0 because its the spot of userID
+                    User UU = findMyUser(int.Parse(rdr2.GetValue(0).ToString())); // 0 because its the spot of userID
                     participants.Add(UU);
                 }
 
@@ -166,18 +181,26 @@ namespace BiotestCompany
                 SQL_CON SD3 = new SQL_CON();
                 SqlDataReader rdr3 = SD3.execute_query(c3);
 
-                while (rdr3.Read()) // populate messages list for every chat
+                //while (rdr3.Read()) // populate messages list for every chat
+                //{
+                //    User sentBy = FindMyUser(int.Parse(rdr3.GetValue(0).ToString())); // find user who sent the message
+                //    DateTime s = DateTime.Parse(rdr3.GetValue(1).ToString());
+                //    Message MM = FindMyMessage(sentBy, s);
+                //    messages.Add(MM);
+                //}
+                foreach (Message M in messages)
                 {
-                    User sentBy = FindMyUser(int.Parse(rdr3.GetValue(0).ToString())); // find user who sent the message
-                    Message MM = FindMyMessage(sentBy, DateTime.Parse(rdr3.GetValue(1).ToString()));
-                    messages.Add(MM);
+                    if(M.getChatID() == int.Parse(rdr.GetValue(0).ToString()))
+                    {
+                        c_messages.Add(M);
+                    }
                 }
 
                 try
                 {
-                    User chat_creator = FindMyUser(int.Parse(rdr.GetValue(4).ToString())); // recieves user ID from SQL                        
-                    Chat a_chat = new Chat(int.Parse(rdr.GetValue(0).ToString()), rdr.GetValue(1).ToString(), DateTime.Parse(rdr.GetValue(2).ToString()), rdr.GetValue(3).ToString(), chat_creator, participants, messages, false);
-                    Chats.Add(a_chat);
+                    User chat_creator = findMyUser(int.Parse(rdr.GetValue(4).ToString())); // recieves user ID from SQL                        
+                    Chat a_chat = new Chat(int.Parse(rdr.GetValue(0).ToString()), rdr.GetValue(1).ToString(), DateTime.Parse(rdr.GetValue(2).ToString()), rdr.GetValue(3).ToString(), chat_creator, participants, c_messages, false);
+                    chats.Add(a_chat);
                 }
                 catch (Exception ex)
                 {
@@ -192,33 +215,49 @@ namespace BiotestCompany
             SQL_CON SC = new SQL_CON();
             SqlDataReader rdr = SC.execute_query(c);
 
-            ProductTypes = new List<ProductType>();
+            productTypes = new List<ProductType>();
 
             while (rdr.Read())
             {
                 ProductType P = new ProductType(int.Parse(rdr.GetValue(0).ToString()), rdr.GetValue(1).ToString(), int.Parse(rdr.GetValue(2).ToString()), double.Parse(rdr.GetValue(3).ToString()), double.Parse(rdr.GetValue(4).ToString()), double.Parse(rdr.GetValue(5).ToString()), false);
-                ProductTypes.Add(P);
+                productTypes.Add(P);
             }
         }
-        public static void init_customerbid() 
+        public static void init_customerbid()
         {
             SqlCommand c = new SqlCommand();
             c.CommandText = "EXECUTE dbo.GetAllCustomerBids";
             SQL_CON SC = new SQL_CON();
             SqlDataReader rdr = SC.execute_query(c);
 
-            CustomerBids = new List<CustomerBid>();
+            customerBids = new List<CustomerBid>();
 
             while (rdr.Read())
             {
-                PaymentTerm paymentTerm = (PaymentTerm)Enum.Parse(typeof(PaymentTerm), rdr.GetValue(2).ToString());
-                User user = FindMyUser(int.Parse(rdr.GetValue(3).ToString())); // "madeBy" in DB
-                Contact contact = FindMyContact(rdr.GetValue(4).ToString());
-                ProductType productType = FindProductType(int.Parse(rdr.GetValue(5).ToString()));
-                Customer customer = FindMyCustomer(int.Parse(rdr.GetValue(6).ToString()));
+                SqlCommand c2 = new SqlCommand();
+                c2.CommandText = "EXECUTE dbo.GetBidDetails @bidID";
+                c2.Parameters.AddWithValue("@bidID", rdr.GetValue(0).ToString());
+                SQL_CON SC2 = new SQL_CON();
+                SqlDataReader rdr2 = SC2.execute_query(c2);
 
-                CustomerBid cbid = new CustomerBid(int.Parse(rdr.GetValue(0).ToString()), double.Parse(rdr.GetValue(1).ToString()), paymentTerm, user, productType, contact, customer, false); //CHANGE Role TO Role type
-                CustomerBids.Add(cbid);
+                Dictionary<ProductType, int> bidDetails = new Dictionary<ProductType, int>();
+
+                if (rdr2 != null)
+                {
+                    while (rdr2.Read())
+                    {
+                        ProductType prod = productTypes.Find(P => P.getCatNumber() == int.Parse(rdr2.GetValue(0).ToString()));
+                        int val = int.Parse(rdr2.GetValue(1).ToString());
+                        bidDetails.Add(prod, val);
+                    }
+                }
+                PaymentTerm paymentTerm = (PaymentTerm)Enum.Parse(typeof(PaymentTerm), rdr.GetValue(2).ToString());
+                User user = findMyUser(int.Parse(rdr.GetValue(3).ToString())); // "madeBy" in DB
+                Contact contact = findMyContact(rdr.GetValue(4).ToString());
+                Customer customer = findMyCustomer(int.Parse(rdr.GetValue(5).ToString()));
+
+                CustomerBid cbid = new CustomerBid(int.Parse(rdr.GetValue(0).ToString()), double.Parse(rdr.GetValue(1).ToString()), paymentTerm, user, contact, customer, bidDetails, false); //CHANGE Role TO Role type
+                customerBids.Add(cbid);
             }
         }
         public static void init_supplier()
@@ -228,26 +267,41 @@ namespace BiotestCompany
             SQL_CON SC = new SQL_CON();
             SqlDataReader rdr = SC.execute_query(c);
 
-            Suppliers = new List<Supplier>();
+            suppliers = new List<Supplier>();
             List<Contact> contactsList = new List<Contact>();
+            List<ProductType> producttypesList = new List<ProductType>();
 
             while (rdr.Read())
             {
+                //init supplier's contacts
                 SqlCommand c2 = new SqlCommand();
                 c2.CommandText = "EXECUTE dbo.GetAllSupplierContactsBySupplier @supplierID";
                 c2.Parameters.AddWithValue("@supplierID", int.Parse(rdr.GetValue(0).ToString()));
                 SQL_CON SC2 = new SQL_CON();
                 SqlDataReader rdr2 = SC2.execute_query(c2);
-
                 while (rdr2.Read())
                 {
-                    Contact C = FindMyContact(rdr2.GetValue(0).ToString());
+                    Contact C = findMyContact(rdr2.GetValue(0).ToString());
                     contactsList.Add(C);
                 }
+
+                //init supplier's producttypes
+                SqlCommand c3 = new SqlCommand();
+                c3.CommandText = "EXECUTE dbo.GetAllProducttypesBySupplier @supplierID";
+                c3.Parameters.AddWithValue("@supplierID", int.Parse(rdr.GetValue(0).ToString()));
+                SQL_CON SC3 = new SQL_CON();
+                SqlDataReader rdr3 = SC3.execute_query(c3);
+                while (rdr3.Read())
+                {
+                    ProductType PT = findProductType(int.Parse(rdr3.GetValue(1).ToString()));
+                    producttypesList.Add(PT);
+                }
+
+                //add supplier to list
                 try
                 {
-                    Supplier S = new Supplier(int.Parse(rdr.GetValue(0).ToString()), rdr.GetValue(1).ToString(), rdr.GetValue(2).ToString(), rdr.GetValue(3).ToString(), double.Parse(rdr.GetValue(4).ToString()), double.Parse(rdr.GetValue(5).ToString()), double.Parse(rdr.GetValue(6).ToString()), rdr.GetValue(7).ToString(), contactsList, false);
-                    Suppliers.Add(S);
+                    Supplier S = new Supplier(int.Parse(rdr.GetValue(0).ToString()), rdr.GetValue(1).ToString(), rdr.GetValue(2).ToString(), rdr.GetValue(3).ToString(), double.Parse(rdr.GetValue(4).ToString()), double.Parse(rdr.GetValue(5).ToString()), double.Parse(rdr.GetValue(6).ToString()), rdr.GetValue(7).ToString(), contactsList, producttypesList, false);
+                    suppliers.Add(S);
 
                 }
                 catch (Exception ex)
@@ -263,14 +317,19 @@ namespace BiotestCompany
             SQL_CON SC = new SQL_CON();
             SqlDataReader rdr = SC.execute_query(c);
 
-            Products = new List<Product>();
+            products = new List<Product>();
 
             while (rdr.Read())
             {
                 ProductStatus status = (ProductStatus)Enum.Parse(typeof(ProductStatus), rdr.GetValue(2).ToString());
-                ProductType pType = FindProductType(int.Parse(rdr.GetValue(3).ToString()));
-                Product P = new Product(int.Parse(rdr.GetValue(0).ToString()), int.Parse(rdr.GetValue(1).ToString()), status, pType, int.Parse(rdr.GetValue(4).ToString()), int.Parse(rdr.GetValue(5).ToString()), DateTime.Parse(rdr.GetValue(6).ToString()), false);
-                Products.Add(P);
+                ProductType pType = findProductType(int.Parse(rdr.GetValue(3).ToString()));
+                int supplierID;
+                if (rdr.GetValue(4).ToString() == "")
+                    supplierID = 0;
+                else
+                    supplierID = int.Parse(rdr.GetValue(4).ToString());
+                Product P = new Product(int.Parse(rdr.GetValue(0).ToString()), int.Parse(rdr.GetValue(1).ToString()), status, pType, supplierID, int.Parse(rdr.GetValue(5).ToString()), DateTime.Parse(rdr.GetValue(6).ToString()), false);
+                products.Add(P);
             }
         }
         public static void init_businessmeeting()
@@ -280,7 +339,7 @@ namespace BiotestCompany
             SQL_CON SC = new SQL_CON();
             SqlDataReader rdr = SC.execute_query(c);
 
-            BusinessMeetings = new List<BusinessMeeting>();
+            businessMeetings = new List<BusinessMeeting>();
             List<Customer> customerParticipants = new List<Customer>();
             List<User> userParticipants = new List<User>();
 
@@ -294,7 +353,7 @@ namespace BiotestCompany
 
                 while (rdr2.Read())
                 {
-                    Customer customer = FindMyCustomer(int.Parse(rdr.GetValue(0).ToString()));
+                    Customer customer = findMyCustomer(int.Parse(rdr.GetValue(0).ToString()));
                     customerParticipants.Add(customer);
                 }
 
@@ -306,13 +365,13 @@ namespace BiotestCompany
 
                 while (rdr3.Read())
                 {
-                    User user = FindMyUser(int.Parse(rdr.GetValue(0).ToString()));
+                    User user = findMyUser(int.Parse(rdr.GetValue(0).ToString()));
                     userParticipants.Add(user);
                 }
 
-                User creator = FindMyUser(int.Parse(rdr.GetValue(3).ToString()));
+                User creator = findMyUser(int.Parse(rdr.GetValue(3).ToString()));
                 BusinessMeeting B = new BusinessMeeting(int.Parse(rdr.GetValue(0).ToString()), DateTime.Parse(rdr.GetValue(1).ToString()), rdr.GetValue(2).ToString(), creator, customerParticipants, userParticipants, false);
-                BusinessMeetings.Add(B);
+                businessMeetings.Add(B);
             }
         }
         public static void init_supplierbid()
@@ -322,13 +381,13 @@ namespace BiotestCompany
             SQL_CON SC = new SQL_CON();
             SqlDataReader rdr = SC.execute_query(c);
 
-            SupplierBids = new List<SupplierBid>();
+            supplierBids = new List<SupplierBid>();
 
             while (rdr.Read())
             {
-                Supplier supplier = FindMySupplier(int.Parse(rdr.GetValue(0).ToString()));
+                Supplier supplier = findMySupplier(int.Parse(rdr.GetValue(0).ToString()));
                 SupplierBid sbid = new SupplierBid(supplier, int.Parse(rdr.GetValue(1).ToString()), double.Parse(rdr.GetValue(2).ToString()), DateTime.Parse(rdr.GetValue(3).ToString()), false);
-                SupplierBids.Add(sbid);
+                supplierBids.Add(sbid);
             }
         }
         public static void init_supplierorder()
@@ -338,27 +397,28 @@ namespace BiotestCompany
             SQL_CON SC = new SQL_CON();
             SqlDataReader rdr = SC.execute_query(c);
 
-            SupplierOrders = new List<SupplierOrder>();
+            supplierOrders = new List<SupplierOrder>();
 
             while (rdr.Read())
             {
                 SqlCommand c2 = new SqlCommand();
-                c2.CommandText = "EXECUTE dbo.GetAllSupplierOrderProducts @orderID";
-                c2.Parameters.AddWithValue("@orderID", int.Parse(rdr.GetValue(0).ToString()));
+                c2.CommandText = "EXECUTE dbo.GetSODetails @supplierOrderID";
+                c2.Parameters.AddWithValue("@supplierOrderID", rdr.GetValue(0).ToString());
                 SQL_CON SC2 = new SQL_CON();
                 SqlDataReader rdr2 = SC2.execute_query(c2);
 
-                List<Product> products = new List<Product>();
+                Dictionary<ProductType, int> products = new Dictionary<ProductType, int>();
 
                 while (rdr2.Read())
                 {
-                    Product p = FindMyProduct(int.Parse(rdr2.GetValue(0).ToString()));
-                    products.Add(p);
+                    ProductType prod = productTypes.Find(P => P.getCatNumber() == int.Parse(rdr2.GetValue(0).ToString()));
+                    int val = int.Parse(rdr2.GetValue(1).ToString());
+                    products.Add(prod, val);
                 }
 
-                Supplier supplier = FindMySupplier(int.Parse(rdr.GetValue(7).ToString()));
+                Supplier supplier = findMySupplier(int.Parse(rdr.GetValue(7).ToString()));
                 SupplierOrder S = new SupplierOrder(int.Parse(rdr.GetValue(0).ToString()), DateTime.Parse(rdr.GetValue(1).ToString()), DateTime.Parse(rdr.GetValue(2).ToString()), double.Parse(rdr.GetValue(3).ToString()), double.Parse(rdr.GetValue(4).ToString()), double.Parse(rdr.GetValue(5).ToString()), double.Parse(rdr.GetValue(6).ToString()), supplier, products, false);
-                SupplierOrders.Add(S);
+                supplierOrders.Add(S);
             }
         }
         public static void init_customerorder()
@@ -368,7 +428,7 @@ namespace BiotestCompany
             SQL_CON SC = new SQL_CON();
             SqlDataReader rdr = SC.execute_query(c);
 
-            CustomerOrders = new List<CustomerOrder>();
+            customerOrders = new List<CustomerOrder>();
 
             while (rdr.Read())
             {          
@@ -378,65 +438,81 @@ namespace BiotestCompany
                 SQL_CON SC2 = new SQL_CON();
                 SqlDataReader rdr2 = SC2.execute_query(c2);
 
-                List<Product> products = new List<Product>();
+                List<Product> c_products = new List<Product>();
 
                 while(rdr2.Read()) // populate products list
                 {
-                    Product p = FindMyProduct(int.Parse(rdr2.GetValue(0).ToString()));
-                    products.Add(p);
+                    Product p = findMyProduct(int.Parse(rdr2.GetValue(0).ToString()));
+                    c_products.Add(p);
                 }
 
-                CustomerBid bid = FindCustomerBid(int.Parse(rdr.GetValue(3).ToString()));
-                CustomerOrder cOrder = new CustomerOrder(int.Parse(rdr.GetValue(0).ToString()), int.Parse(rdr.GetValue(1).ToString()), double.Parse(rdr.GetValue(2).ToString()), bid, products, false);
-                CustomerOrders.Add(cOrder);
+                CustomerBid bid = findCustomerBid(int.Parse(rdr.GetValue(1).ToString()));
+                CustomerOrder cOrder = new CustomerOrder(int.Parse(rdr.GetValue(0).ToString()), bid, c_products, false);
+                customerOrders.Add(cOrder);
             }
         }
 
         // search object in lists functions:
 
-        public static User FindMyUser(int ID)
+        public static User findMyUser(int ID)
         {
-            return Users.Find(U => U.getID() == ID);
+            return users.Find(U => U.getID() == ID);
         }
-        public static Customer FindMyCustomer(int ID)
+        public static User findMyUser_ByEmail(string mail)
         {
-            return Customers.Find(U => U.getID() == ID);
+            return users.Find(U => U.getEmail() == mail);
         }
-        public static Message FindMyMessage(User sentBy, DateTime messageDT)
+        public static Customer findMyCustomer(int ID)
         {
-            return Messages.Find(M => M.getSentBy() == sentBy && M.getMessageDT() == messageDT); // check if works!
+            return customers.Find(U => U.getID() == ID);
         }
-        public static Contact FindMyContact(string email)
-        {
-            return Contacts.Find(C => C.getContactEmail() == email);
+        public static Message findMyMessage(User sentBy, DateTime messageDT)
+        { 
+            foreach (Message M in messages)
+            {
+                if (M.getSentBy().getID() == sentBy.getID() && M.getMessageDT().Day == messageDT.Day)
+                {
+                    return M;
+                }
+            }
+            return null;
+            //return Messages.Find(M => M.getSentBy().getID() == sentBy.getID() && M.getMessageDT() == messageDT); // check if works!
         }
-        public static ProductType FindProductType(int catNum)
+        public static Contact findMyContact(string email)
         {
-            return ProductTypes.Find(P => P.getCatNumber() == catNum);
+            return contacts.Find(C => C.getContactEmail() == email);
         }
-        public static CustomerBid FindCustomerBid(int bidID)
+        public static ProductType findProductType(int catNum)
         {
-            return CustomerBids.Find(B => B.getBidID() == bidID);
+            return productTypes.Find(P => P.getCatNumber() == catNum);
         }
-        public static Product FindMyProduct(int serialNumber)
+        public static CustomerBid findCustomerBid(int bidID)
         {
-            return Products.Find(P => P.getSerialNumer() == serialNumber);
+            return customerBids.Find(B => B.getBidID() == bidID);
         }
-        public static Supplier FindMySupplier(int supplierID)
+        public static Product findMyProduct(int serialNumber)
         {
-            return Suppliers.Find(S => S.getSupplierID() == supplierID);
+            return products.Find(P => P.getSerialNumer() == serialNumber);
         }
-        public static SupplierOrder FindMySupplierOrder(int orderID)
+        public static Supplier findMySupplier(int supplierID)
         {
-            return SupplierOrders.Find(S => S.getOrderID() == orderID);
+            return suppliers.Find(S => S.getSupplierID() == supplierID);
         }
-        public static CustomerOrder FindMyCustomerOrder(int orderID)
+        public static SupplierOrder findMySupplierOrder(int orderID)
         {
-            return CustomerOrders.Find(S => S.getOrderID() == orderID);
+            return supplierOrders.Find(S => S.getOrderID() == orderID);
+        }
+        public static CustomerOrder findMyCustomerOrder(int orderID)
+        {
+            return customerOrders.Find(S => S.getOrderID() == orderID);
+        }
+        public static Chat findChat(int chatID)
+        {
+            return chats.Find(C => C.getID() == chatID);
         }
 
         // general functions:
-        public static DateTime StringToDate(string str)
+        public static DateTime stringToDate(string str)
         {
             int year = int.Parse(str.Substring(6, 4));
             int month = int.Parse(str.Substring(3, 2));
@@ -445,7 +521,7 @@ namespace BiotestCompany
         }
         public static Boolean checkPassword(String email,String password)
         {
-            User u = Users.Find(U => U.getEmail() == email);
+            User u = users.Find(U => U.getEmail() == email);
             if (u.getPassword() == password)
             {
                 return true;
@@ -454,7 +530,7 @@ namespace BiotestCompany
         }
         public static Boolean checkUser(String email)
         {
-            User u = Users.Find(U => U.getEmail() == email);
+            User u = users.Find(U => U.getEmail() == email);
             if (u != null)
             {
                 return true;
@@ -463,7 +539,7 @@ namespace BiotestCompany
         }
         public static string checkRole(String email)
         {
-            User u = Users.Find(U => U.getEmail() == email);
+            User u = users.Find(U => U.getEmail() == email);
             if (u.getRole().ToString() == "Manager")
             {
                 return "Manager";
@@ -490,12 +566,12 @@ namespace BiotestCompany
         //}
         public static int assignUserID()
         {
-            if (Users.Count == 0)
+            if (users.Count == 0)
             {
-                throw new InvalidOperationException("Empty list");
+                return (1);
             }
-            int max = Users.First().getID();
-            foreach (User U in Users)
+            int max = users.First().getID();
+            foreach (User U in users)
             {
                 if (U.getID() > max)
                 {
@@ -504,29 +580,136 @@ namespace BiotestCompany
             }
             return max + 1;
         }
+        public static int assignChatID()
+        {
+            if (chats.Count == 0)
+            {
+                return (1);
+            }
+            int max = chats.First().getID();
+            foreach (Chat C in chats)
+            {
+                if (C.getID() > max)
+                {
+                    max = C.getID();
+                }
+            }
+            return max + 1;
+        }
+        public static int assignCustID()
+        {
+            if (customers.Count == 0)
+            {
+                return (1);
+            }
+            int max = customers.First().getID();
+            foreach (Customer C in customers)
+            {
+                if (C.getID() > max)
+                {
+                    max = C.getID();
+                }
+            }
+            return max + 1;
+        }
+        public static int assignSuppID()
+        {
+            if (suppliers.Count == 0)
+            {
+                return (1);
+            }
+            int max = suppliers.First().getID();
+            foreach (Supplier S in suppliers)
+            {
+                if (S.getID() > max)
+                {
+                    max = S.getID();
+                }
+            }
+            return max + 1;
+        }
+        public static int assignSuppOrderID()
+        {
+            if (supplierOrders.Count == 0)
+            {
+                return (1);
+            }
+            int max = supplierOrders.First().getOrderID();
+            foreach (SupplierOrder SO in supplierOrders)
+            {
+                if (SO.getOrderID() > max)
+                {
+                    max = SO.getOrderID();
+                }
+            }
+            return max + 1;
+        }
+        public static int getHighestSN()
+        {
+            int SN = 0;
+            foreach (Product p in products)
+            {
+                if (p.getSerialNumer() > SN)
+                    SN = p.getSerialNumer();
+            }
 
+            return SN;
+        }
+        public static int getHighestCustomerOrderID()
+        {
+            int orderID = 0;
+            foreach (CustomerOrder c in customerOrders)
+            {
+                if (c.getOrderID() > orderID)
+                    orderID = c.getOrderID();
+            }
+            return orderID;
+        }
+
+        public static User getLoggedIn()
+        {
+            return (Program.LoggedIn);
+        }
+        public static void setLoggedIn_byEmail(string email)
+        {
+            Program.LoggedIn = Program.findMyUser_ByEmail(email);
+        }
+        public static CustomerBid findMyCustomerBid(int ID)
+        {
+            return customerBids.Find(CB => CB.getBidID() == ID);
+        }
+        public static int generateBidID()
+        {
+            int i = 0;
+            int maxID = 0;
+            int count = Program.customerBids.Count();
+            while (i < count)
+            {
+                if (maxID < customerBids.ElementAt(i).getBidID())
+                {
+                    maxID = customerBids.ElementAt(i).getBidID();
+                }
+                i = i + 1;
+            }
+            return maxID + 1;
+        }
+        public static void sendEmail(string sendto, string title, string text)
+        {
+            SmtpClient mail = new SmtpClient("smtp.gmail.com", 587);
+            NetworkCredential Credentials = new NetworkCredential("BiotestCompany@gmail.com", "crudMaster");
+            mail.Credentials = Credentials;
+            mail.EnableSsl = true;
+
+            mail.Send("BiotestCompany@gmail.com", sendto, title, text);
+        }
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            initLists();//אתחול כל הרשימות
+            initLists();
+            //Application.Run(new SupplierOrdersForm());
             Application.Run(new LoginForm());
-            //new LoginForm().Show();
-            //const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-            //StringBuilder res = new StringBuilder();
-            //Random rnd = new Random();
-            //int length = 10;
-            //while (0 < length--)
-            //{
-            //    res.Append(valid[rnd.Next(valid.Length)]);
-            //}
-            //init_chats();
-            //while (Users.ElementAt(0) != null)
-            //{
-            //    Users.ElementAt(0).deleteUser();
-            //}
-            //Application.Run(new Email());
-            //Application.Run(new LoginForm());
+
         }
     }
 }

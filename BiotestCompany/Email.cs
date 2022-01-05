@@ -15,10 +15,31 @@ namespace BiotestCompany
 {
     public partial class Email : Form
     {
+        string title = "";
+        string text = "";
+        string sendto = "";
+
         public Email()
         {
             InitializeComponent();
+            this.sendto = sendto;
+            this.title = title;
+            this.text = text;
         }
+        //public Email(string sendto, string title, string text) //now a method in Program
+        //{
+        //    this.sendto = sendto;
+        //    this.title = title;
+        //    this.text = text;
+        //    InitializeComponent();
+
+        //    SmtpClient mail = new SmtpClient("smtp.gmail.com", 587);
+        //    NetworkCredential Credentials = new NetworkCredential("BiotestCompany@gmail.com", "crudMaster");
+        //    mail.Credentials = Credentials;
+        //    mail.EnableSsl = true;
+
+        //    mail.Send("BiotestCompany@gmail.com", sendto, title, text);
+        //}
 
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
@@ -27,26 +48,33 @@ namespace BiotestCompany
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //string mail = new SmtpClient("smtp.gmail.com");
-            //MailMessage mm = new MailMessage("ecoshrimpproject@gmail.com",textBox1.Text);
-            //mm.Subject = "Testing mail";
-            //SmtpClient sc = new SmtpClient("smtp@gmail.com", 587);
-            //sc.UseDefaultCredentials = false;
-            //NetworkCredential scr = new NetworkCredential("ecoshrimpproject@gmail.com", "ecoshrimp123!");
-            //sc.Credentials = scr;
-            //sc.EnableSsl = true;
-            //sc.Send(mm);//
+            this.sendto = textBox1.Text;
+            this.title = textBox2.Text;
+            this.text = textBox4.Text;
+            SmtpClient mail = new SmtpClient("smtp.gmail.com", 587);
+            NetworkCredential Credentials = new NetworkCredential("BiotestCompany@gmail.com", "crudMaster");
+            mail.Credentials = Credentials;
+            mail.EnableSsl = true;
 
+            try
+            {
+                var mailMessage = new MailMessage
+                {
+                    From = new MailAddress("BiotestCompany@gmail.com"),
+                    Subject = textBox2.Text,
+                    Body = textBox4.Text,
+                    IsBodyHtml = true,
+                };
+                mailMessage.To.Add(sendto);
+                mail.Send(mailMessage);
 
-            //try
-            //{
-            //    sc.Send(mm);
-            //    MessageBox.Show("wtf");
-            //}
-            //catch(Exception ex) {
-            //    MessageBox.Show(ex.Message+"idk");
+                MessageBox.Show("mail sent");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + " ");
 
-            //}
+            }
 
         }
 
@@ -57,15 +85,30 @@ namespace BiotestCompany
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
+            this.sendto = textBox1.Text;
         }
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-
+            this.title = textBox2.Text;
         }
 
         private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label3_Click(object sender, EventArgs e)
         {
 
         }

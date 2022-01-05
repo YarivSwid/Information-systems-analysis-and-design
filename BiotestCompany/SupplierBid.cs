@@ -23,7 +23,7 @@ namespace BiotestCompany
             if (isNew)
             {
                 this.createSupplierBid();
-                Program.SupplierBids.Add(this);
+                Program.supplierBids.Add(this);
             }
         }
         public void createSupplierBid()

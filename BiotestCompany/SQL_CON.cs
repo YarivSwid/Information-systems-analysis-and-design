@@ -60,7 +60,7 @@ namespace BiotestCompany
             }
             catch (Exception ex)
             {
-                MessageBox.Show("שגיאה  השאילתה", "המשך", MessageBoxButtons.OK);
+                MessageBox.Show("שגיאה במהלך ביצוע השאילתה", "המשך", MessageBoxButtons.OK);
                 return null;
             }
 

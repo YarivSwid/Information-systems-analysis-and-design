@@ -30,7 +30,7 @@ namespace BiotestCompany
             if (isNew)
             {
                 this.createCustomer();
-                Program.Customers.Add(this);
+                Program.customers.Add(this);
             }
         }
 
@@ -48,8 +48,12 @@ namespace BiotestCompany
             return this.orgName;
         }
         public District getDistrict()
-        { // do we need to create set? i dont think so
+        {
             return this.district;
+        }
+        public void setDistrict(District D)
+        {
+            this.district = D;
         }
         public void setDeliveryAddress(string address)
         {
@@ -61,7 +65,7 @@ namespace BiotestCompany
         }
         public void setBuildingNumber(string str)
         {
-            this.deliveryAddress = str;
+            this.buildingNumber = str;
         }
         public string getBuildingNumber()
         {
@@ -84,7 +88,7 @@ namespace BiotestCompany
             c.CommandText = "EXECUTE dbo.AddCustomer @custID, @orgName, @district ,@deliveryAddress, @buildingNumber, @roomNumber"; 
             c.Parameters.AddWithValue("@custID", this.custID);
             c.Parameters.AddWithValue("@orgName", this.orgName);
-            c.Parameters.AddWithValue("@district", this.district);
+            c.Parameters.AddWithValue("@district", this.district.ToString());
             c.Parameters.AddWithValue("@deliveryAddress", this.deliveryAddress);
             c.Parameters.AddWithValue("@buildingNumber", this.buildingNumber);
             c.Parameters.AddWithValue("@roomNumber", this.roomNumber);
@@ -97,7 +101,7 @@ namespace BiotestCompany
             c.CommandText = "EXECUTE dbo.UpdateCustomer @custID, @orgName, @district ,@deliveryAddress, @buildingNumber, @roomNumber"; 
             c.Parameters.AddWithValue("@custID", this.custID);
             c.Parameters.AddWithValue("@orgName", this.orgName);
-            c.Parameters.AddWithValue("@district", this.district);
+            c.Parameters.AddWithValue("@district", this.district.ToString());
             c.Parameters.AddWithValue("@deliveryAddress", this.deliveryAddress);
             c.Parameters.AddWithValue("@buildingNumber", this.buildingNumber);
             c.Parameters.AddWithValue("@roomNumber", this.roomNumber);
