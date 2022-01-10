@@ -1,5 +1,9 @@
 # BiotestCompany
-Soon I will upload updated read me and couple of my project forms
+In this course we had to choose a company and create an information system and design it
+we choose to work on Biotest company 
+we created a system and design it with C# and SQL
+we used a data base from the university
+
 ![LoginForm](https://user-images.githubusercontent.com/89691954/148717229-4e489706-7691-455e-a984-5afaa4596600.png)
 ![MenuFormManager](https://user-images.githubusercontent.com/89691954/148717232-f616c8dd-6b96-4ef3-b298-f94b84683399.png)
 ![MenuFormSalesman](https://user-images.githubusercontent.com/89691954/148717233-fe721e50-ca71-4641-9ff9-cd9dcf78eb27.png)
