@@ -8,7 +8,6 @@ we used a data base from the university
 ![MenuFormManager](https://user-images.githubusercontent.com/89691954/148717232-f616c8dd-6b96-4ef3-b298-f94b84683399.png)
 ![MenuFormSalesman](https://user-images.githubusercontent.com/89691954/148717233-fe721e50-ca71-4641-9ff9-cd9dcf78eb27.png)
 ![MenuFormSecretary](https://user-images.githubusercontent.com/89691954/148717235-89cac57e-8414-48ae-8f61-8819f6bd34c5.png)
-
 ![SupplierNotes Form](https://user-images.githubusercontent.com/89691954/148717047-5ad02719-969e-4359-a1dc-b0cad4fced6c.jpeg)
 ![SupplierOrders Form](https://user-images.githubusercontent.com/89691954/148717055-d33caab3-2076-4852-84d9-d9b29952a9b1.jpeg)
 ![Suppliers Form](https://user-images.githubusercontent.com/89691954/148717059-1b803a5d-c544-4ec8-80f5-f4a6cc1aa36b.jpeg)
