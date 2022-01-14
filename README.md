@@ -21,7 +21,6 @@ we used a data base from the university
 ![Group chat Form](https://user-images.githubusercontent.com/89691954/148717077-892768e5-8237-4315-bd3a-fac26adf7cb0.jpeg)
 ![Issue cerntificate Form](https://user-images.githubusercontent.com/89691954/148717078-a044e175-385a-405f-bba9-9c65716494f7.jpeg)
 ![Order Product From Supplier Form](https://user-images.githubuserc![MenuFormSalesman](https://user-images.githubusercontent.com/89691954/148717216-f8ef8bb2-ebec-43ad-8b9a-3a78dfaecbe8.png)
-ontent.com/89691954/148717080-493d906e-3acf-4e19-9ecb-4cf694be58a7.jpeg)
 ![Product Pricing Form](https://user-images.githubusercontent.com/89691954/148717081-30862f1c-df7e-4bc2-9837-48ac8688fcdb.jpeg)
 ![Products Form](https://user-images.githubusercontent.com/89691954/148717082-ef843456-6f22-4000-bfda-c573b0a54523.jpeg)
 ![Start a new chat Form](https://user-images.githubusercontent.com/89691954/148717083-2f9e4b61-3fff-4019-8977-9e5ab9339896.jpeg)
