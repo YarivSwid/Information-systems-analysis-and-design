@@ -20,7 +20,6 @@ we used a data base from the university
 ![Email](https://user-images.githubusercontent.com/89691954/148717076-bafc5144-4bab-411e-82ae-f008d3399201.jpeg)
 ![Group chat Form](https://user-images.githubusercontent.com/89691954/148717077-892768e5-8237-4315-bd3a-fac26adf7cb0.jpeg)
 ![Issue cerntificate Form](https://user-images.githubusercontent.com/89691954/148717078-a044e175-385a-405f-bba9-9c65716494f7.jpeg)
-![Order Product From Supplier Form](https://user-images.githubuserc![MenuFormSalesman](https://user-images.githubusercontent.com/89691954/148717216-f8ef8bb2-ebec-43ad-8b9a-3a78dfaecbe8.png)
 ontent.com/89691954/148717080-493d906e-3acf-4e19-9ecb-4cf694be58a7.jpeg)
 ![Product Pricing Form](https://user-images.githubusercontent.com/89691954/148717081-30862f1c-df7e-4bc2-9837-48ac8688fcdb.jpeg)
 ![Products Form](https://user-images.githubusercontent.com/89691954/148717082-ef843456-6f22-4000-bfda-c573b0a54523.jpeg)
